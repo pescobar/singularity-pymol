@@ -3,7 +3,7 @@ From: centos:7
 
 %runscript
    #"I can put here whatever I want to happen by default when the user runs the container"
-   pymol
+   pymol "$@"
 
 %post
     yum install -y curl bzip2
