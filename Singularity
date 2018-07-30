@@ -2,13 +2,8 @@ BootStrap: docker
 From: centos:7
 
 %runscript
-
    #"I can put here whatever I want to happen by default when the user runs the container"
-   cat << EOF
-This container includes the following apps:
-PyMOL 2.2.0 - https://pymol.org
-To list them do "singularity apps pymol.img"
-EOF
+   pymol
 
 %post
     yum install -y curl bzip2
