@@ -8,7 +8,7 @@ From: centos:7
 %post
     yum install -y curl bzip2
     # System dependencies for PyMOL
-    yum install -y libGL libGLU qt5-qtbase-gui
+    yum install -y libGL libGLU qt5-qtbase-gui mesa-dri-drivers mesa-libGL mesa-libGLU
 
     # download and install miniconda2
     if [ ! -x "/opt/miniconda2/bin/conda" ]; then
