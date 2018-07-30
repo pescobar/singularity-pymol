@@ -26,6 +26,7 @@ From: centos:7
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
     export PATH=/opt/miniconda2/bin:$PATH
+    export XDG_RUNTIME_DIR=""
 
 %apphelp PyMOL
     "PyMOL version 2.2.0"
