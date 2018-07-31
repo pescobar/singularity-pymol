@@ -1,35 +1,36 @@
 BootStrap: docker
-From: centos:7
+From: ubuntu:18.04
 
 %runscript
-   #"I can put here whatever I want to happen by default when the user runs the container"
    pymol "$@"
 
 %post
-    yum install -y curl bzip2
-    # System dependencies for PyMOL
-    yum install -y libGL libGLU qt5-qtbase-gui mesa-dri-drivers mesa-libGL mesa-libGLU
+    
+    export PYMON_VERSION="2.2.0"
 
-    # download and install miniconda2
-    if [ ! -x "/opt/miniconda2/bin/conda" ]; then
-      curl -sSL -O https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
-      bash Miniconda2-latest-Linux-x86_64.sh -p /opt/miniconda2 -b
-      rm -fr Miniconda2-latest-Linux-x86_64.sh
-    fi
+    # install build dependencies for PyMOL
+    apt-get update
+    apt-get -y install build-essential python-dev python-pmw libglew-dev \
+      freeglut3-dev libpng-dev libfreetype6-dev libxml2-dev \
+        libmsgpack-dev python-pyqt5.qtopengl libglm-dev curl
+    apt-get clean
 
-    # use conda to install some bioinfo tools
-    export PATH=/opt/miniconda2/bin:$PATH
-    conda install --yes -c schrodinger pymol=2.2.0
+    # download pymol code
+    cd /usr/local/src
+    curl -sSL -O https://github.com/schrodinger/pymol-open-source/archive/v2.2.0.tar.gz
+    tar xf v${PYMON_VERSION}.tar.gz
+    cd pymol-open-source-${PYMON_VERSION}
+    python setup.py build install
+
 
 %environment
     export LANG=en_US.UTF-8
     export LANGUAGE=en_US:en
     export LC_ALL=en_US.UTF-8
-    export PATH=/opt/miniconda2/bin:$PATH
     export XDG_RUNTIME_DIR=""
 
 %apphelp PyMOL
     "PyMOL version 2.2.0"
 
 %apprun PyMOL
-    /opt/miniconda2/bin/pymol
+    pymol
